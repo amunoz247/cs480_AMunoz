@@ -1,5 +1,7 @@
 #include "shader.h"
+#include <iostream>
 #include <fstream>
+#include <string>
 
 Shader::Shader()
 {
@@ -33,13 +35,52 @@ bool Shader::Initialize()
   return true;
 }
 
+std::string readIn(const char *fileName) {
+    std::string data;
+    std::string line;
+    std::ifstream file(fileName, std::ios::in);
+
+    if(!file.is_open()) {
+        std::cerr << "Unable to read the file " << fileName << ". It does not exist." << std::endl;
+        return "";
+    }
+
+    line = "";
+    while(!file.eof()) {
+        std::getline(file, line);
+        data.append(line + "\n");
+    }
+
+    file.close();
+    return data;
+}
+
 // Use this method to add shaders to the program. When finished - call finalize()
 bool Shader::AddShader(GLenum ShaderType)
 {
+  //GLuint vertShader;
+  //GLuint fragShader;
+
+  std::string vertShader;
+  std::string fragShader;
   std::string s;
 
   if(ShaderType == GL_VERTEX_SHADER)
   {
+    vertShader = readIn("VertexShader.glsl");
+    s = vertShader;
+    /*vertShaderFile("VertexShader.glsl");
+
+    if(vertShaderFile.isOpen())
+    {
+        line = "";
+        while(getline(vertShaderFile, line))
+        {
+            s += "\n" + line;
+        }
+        vertShaderFile.close();
+    }*/
+
     /*s = "#version 330\n \
           \
           layout (location = 0) in vec3 v_position; \
@@ -61,7 +102,21 @@ bool Shader::AddShader(GLenum ShaderType)
   }
   else if(ShaderType == GL_FRAGMENT_SHADER)
   {
-    s = "#version 330\n \
+    fragShader = readIn("FragmentShader.glsl");
+    s = fragShader;
+    /*fragShaderFile("FragmentShader.glsl");
+
+    if(fragShaderFile.isOpen())
+    {
+        line = "";
+        while(getline(fragShaderFile, line))
+        {
+            s += "\n" + line;
+        }
+        fragShaderFile.close();
+    }*/
+
+    /*s = "#version 330\n \
           \
           smooth in vec3 color; \
           \
@@ -71,7 +126,7 @@ bool Shader::AddShader(GLenum ShaderType)
           { \
              frag_color = vec4(color.rgb, 1.0); \
           } \
-          ";
+          ";*/
   }
 
   GLuint ShaderObj = glCreateShader(ShaderType);

@@ -35,7 +35,7 @@ bool Shader::Initialize()
   return true;
 }
 
-/*std::string readIn(const char *fileName) {
+std::string readIn(const char *fileName) {
     std::string data;
     std::string line;
     std::ifstream file(fileName, std::ios::in);
@@ -53,7 +53,7 @@ bool Shader::Initialize()
 
     file.close();
     return data;
-}*/
+}
 
 // Use this method to add shaders to the program. When finished - call finalize()
 bool Shader::AddShader(GLenum ShaderType)
@@ -61,15 +61,14 @@ bool Shader::AddShader(GLenum ShaderType)
   //GLuint vertShader;
   //GLuint fragShader;
 
-  //std::string vertShader;
-  //std::string fragShader;
+  std::string vertShader;
+  std::string fragShader;
   std::string s;
 
   if(ShaderType == GL_VERTEX_SHADER)
   {
-    //vertShader = readIn("VertexShader.glsl");
-    //s = vertShader;
-
+    vertShader = readIn("VertexShader.glsl");
+    s = vertShader;
     /*vertShaderFile("VertexShader.glsl");
 
     if(vertShaderFile.isOpen())
@@ -82,7 +81,7 @@ bool Shader::AddShader(GLenum ShaderType)
         vertShaderFile.close();
     }*/
 
-    s = "#version 330\n \
+    /*s = "#version 330\n \
           \
           layout (location = 0) in vec3 v_position; \
           layout (location = 1) in vec3 v_color; \
@@ -99,13 +98,12 @@ bool Shader::AddShader(GLenum ShaderType)
             gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * v; \
             color = v_color; \
           } \
-          ";
+          ";*/
   }
   else if(ShaderType == GL_FRAGMENT_SHADER)
   {
-    //fragShader = readIn("FragmentShader.glsl");
-    //s = fragShader;
-
+    fragShader = readIn("FragmentShader.glsl");
+    s = fragShader;
     /*fragShaderFile("FragmentShader.glsl");
 
     if(fragShaderFile.isOpen())
@@ -118,7 +116,7 @@ bool Shader::AddShader(GLenum ShaderType)
         fragShaderFile.close();
     }*/
 
-    s = "#version 330\n \
+    /*s = "#version 330\n \
           \
           smooth in vec3 color; \
           \
@@ -128,7 +126,7 @@ bool Shader::AddShader(GLenum ShaderType)
           { \
              frag_color = vec4(color.rgb, 1.0); \
           } \
-          ";
+          ";*/
   }
 
   GLuint ShaderObj = glCreateShader(ShaderType);

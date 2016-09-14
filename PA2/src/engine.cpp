@@ -65,9 +65,50 @@ void Engine::Run()
       Keyboard();
     }
 
+    // Checks button to pause/resume everything
+    if (m_pauseCube == true)
+    {
+      m_graphics->pauseCube(m_DT);
+      m_graphics->Render();
+    }
+
+    if (m_pauseCube == false)
+    {
+      m_graphics->Update(m_DT);
+      m_graphics->Render();
+    }
+
+    // Checks button to stop/start rotation
+    if (m_pauseRotation == true)
+    {
+      m_graphics->stopCubeRotation(m_DT);
+      m_graphics->Render();
+    }
+
+    // Checks button to change direction of rotation
+    if (m_reverseRotation == true)
+    {
+      m_graphics->reverseRotation(m_DT);
+      m_graphics->Render();
+    }
+
+    // Checks button to stop/start orbit
+    /*if (m_pauseOrbit == true)
+    {
+      m_graphics->stopCubeRotation(m_DT);
+      m_graphics->Render();
+    }*/
+
+    // Checks button to change direction of orbit
+    if (m_reverseOrbit == true)
+    {
+      m_graphics->reverseOrbit(m_DT);
+      m_graphics->Render();
+    }
+
     // Update and render the graphics
-    m_graphics->Update(m_DT);
-    m_graphics->Render();
+    //m_graphics->Update(m_DT);
+    //m_graphics->Render();
 
     // Swap to the Window
     m_window->Swap();
@@ -95,59 +136,34 @@ void Engine::Keyboard()
     // Button to pause/resume everything
     if (m_event.key.keysym.sym == SDLK_SPACE)
     {
-      m_graphics->pauseCube(m_DT);
-      m_running = true;
+      m_pauseCube = true;
     }
 
     // Button to stop/start rotation
     if (m_event.key.keysym.sym == SDLK_DOWN)
     {
-      m_graphics->stopCubeRotation(m_DT);
-      m_running = true;
+      m_pauseRotation = true;
     }
 
     // Button to change direction of rotation
     if (m_event.key.keysym.sym == SDLK_LEFT)
     {
-      m_graphics->reverseRotation(m_DT);
-      m_running = true;
+      m_reverseRotation = true;
     }
 
     // Left Mouse click to stop/start orbit
     /*if (m_event.button.MouseButtonEvent.button == SDL_BUTTON_LEFT)
     {
-      m_graphics->stopCubeRotation(m_DT);
-      m_running = true;
+      m_pauseOrbit = true;
     }*/
 
     // Button to change direction of orbit
     if (m_event.key.keysym.sym == SDLK_SLASH)
     {
-      m_graphics->reverseOrbit(m_DT);
-      m_running = true;
+      m_reverseOrbit = true;
     }
   }
-  /*if(m_event.type == SDL_QUIT)
-  {
-    m_running = false;
-  }
-  else if (m_event.type == SDL_KEYDOWN)
-  {
-    // handle key down events here
-    if (m_event.key.keysym.sym == SDLK_ESCAPE)
-    {
-      m_running = false;
-    }
-  }*/
 }
-
-/*void Engine::UpdateEngine(unsigned int dt)
-{
-  angle += dt * M_PI/1000;
-  model = (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0))) *
-            (glm::translate(glm::mat4(1.0f), glm::vec3(5.0, 1.0, 0.0))) *
-            (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0)));
-}*/
 
 unsigned int Engine::getDT()
 {

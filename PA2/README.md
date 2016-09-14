@@ -1,6 +1,8 @@
 # PA2: Interaction
 
 ## Building and Running
+To run this project ```cd PA2``` and then follow the directions below.
+
 To build this project there are two options. One is to use CMake which makes including new libraries easier, and handles new files added automatically to the src and include directory. CMake is a small new learning curve but makes things easier in the future.
 The second option is to use the provided Makefile which is used as usual.
 
@@ -39,27 +41,22 @@ OpenGL 3.3 will run on the [ubuntu.cse.unr.edu](https://ubuntu.cse.unr.edu/) web
 
 ## Keyboard Interactions
 The following list displays the keys used from the keyboard to interact with the cube.
+
 Close the program:
-```Press the 'esc' key
-```
+Press the 'esc' key
 
 Pause/resume the program:
-```Press the Space bar
-```
+Press the Space bar
 
 Stop/Start Cube Rotation:
-```Press the Down Arrow key
-```
+Press the Down Arrow key
 
 Change Direction of Rotation:
-```Press the Left Arrow key
-```
+Press the Left Arrow key
 
 Stop/Start Orbit of Cube:
-```Left Mouse Click
-```
+Left Mouse Click
 
 Change Direction of Orbit:
-```Press the forward slash key '/'
-```
+Press the forward slash key '/'
 

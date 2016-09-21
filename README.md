@@ -12,4 +12,9 @@ This is a simple colored triangle on the screen. To run this project ```cd PA0``
 ## PA1: Spinning Cube
 This is a cube that rotates in place on the screen. To run this project ```cd PA1``` then follow the instructions in the README.md.
 
+## PA2: Interaction
+This is a cube that rotates and orbits on the screen and reacts to certain keyboard interaction from the user. To run this project ```cd PA2``` then follow the instructions in the README.md.
+
+## PA3: Moons
+This contains two cubes, one of which rotates and orbits around the screen while the other orbits it. To run this project ```cd PA3``` then follow the instructions in the README.md.
 

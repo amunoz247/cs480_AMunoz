@@ -35,7 +35,7 @@ bool Shader::Initialize()
   return true;
 }
 
-/*std::string readIn(const char *fileName) {
+std::string readIn(const char *fileName) {
     std::string data;
     std::string line;
     std::ifstream file(fileName, std::ios::in);
@@ -53,82 +53,21 @@ bool Shader::Initialize()
 
     file.close();
     return data;
-}*/
+}
 
 // Use this method to add shaders to the program. When finished - call finalize()
 bool Shader::AddShader(GLenum ShaderType)
 {
-  //GLuint vertShader;
-  //GLuint fragShader;
-
-  //std::string vertShader;
-  //std::string fragShader;
   std::string s;
 
   if(ShaderType == GL_VERTEX_SHADER)
   {
-    //vertShader = readIn("VertexShader.glsl");
-    //s = vertShader;
-
-    /*vertShaderFile("VertexShader.glsl");
-
-    if(vertShaderFile.isOpen())
-    {
-        line = "";
-        while(getline(vertShaderFile, line))
-        {
-            s += "\n" + line;
-        }
-        vertShaderFile.close();
-    }*/
-
-    s = "#version 330\n \
-          \
-          layout (location = 0) in vec3 v_position; \
-          layout (location = 1) in vec3 v_color; \
-          \
-          smooth out vec3 color; \
-          \
-          uniform mat4 projectionMatrix; \
-          uniform mat4 viewMatrix; \
-          uniform mat4 modelMatrix; \
-          \
-          void main(void) \
-          { \
-            vec4 v = vec4(v_position, 1.0); \
-            gl_Position = (projectionMatrix * viewMatrix * modelMatrix) * v; \
-            color = v_color; \
-          } \
-          ";
+    s = readIn("../shaders/VertexShader.glsl");
   }
+
   else if(ShaderType == GL_FRAGMENT_SHADER)
   {
-    //fragShader = readIn("FragmentShader.glsl");
-    //s = fragShader;
-
-    /*fragShaderFile("FragmentShader.glsl");
-
-    if(fragShaderFile.isOpen())
-    {
-        line = "";
-        while(getline(fragShaderFile, line))
-        {
-            s += "\n" + line;
-        }
-        fragShaderFile.close();
-    }*/
-
-    s = "#version 330\n \
-          \
-          smooth in vec3 color; \
-          \
-          out vec4 frag_color; \
-          \
-          void main(void) \
-          { \
-             frag_color = vec4(color.rgb, 1.0); \
-          } \
-          ";
+    s = readIn("../shaders/FragmentShader.glsl");
   }
 
   GLuint ShaderObj = glCreateShader(ShaderType);

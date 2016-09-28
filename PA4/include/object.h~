@@ -14,7 +14,7 @@ class Object
   public:
     Object();
     ~Object();
-    bool loadObjFile(const char *fileName, std::vector < glm::vec3 > & outVertices,
+    bool loadObjFile(char *fileName, std::vector < glm::vec3 > & outVertices,
         std::vector < glm::vec2 > & outUVS,
         std::vector < glm::vec3 > & outNormals);
     void Update(unsigned int dt);

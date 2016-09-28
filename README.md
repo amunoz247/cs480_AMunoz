@@ -18,3 +18,5 @@ This is a cube that rotates and orbits on the screen and reacts to certain keybo
 ## PA3: Moons
 This contains two cubes, one of which rotates and orbits around the screen while the other orbits it. To run this project ```cd PA3``` then follow the instructions in the README.md.
 
+## PA4: Model Loading
+A model loader that is able to load/read a .obj file. To run this project ```cd PA4``` then follow the instructions in the README.md.

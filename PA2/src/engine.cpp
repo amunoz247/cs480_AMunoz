@@ -53,6 +53,8 @@ bool Engine::Initialize()
 void Engine::Run()
 {
   m_running = true;
+  input = '+';
+  newKey = false;
 
   while(m_running)
   {
@@ -65,50 +67,10 @@ void Engine::Run()
       Keyboard();
     }
 
-    // Checks button to pause/resume everything
-    if (m_pauseCube == true)
-    {
-      m_graphics->pauseCube(m_DT);
-      m_graphics->Render();
-    }
-
-    if (m_pauseCube == false)
-    {
-      m_graphics->Update(m_DT);
-      m_graphics->Render();
-    }
-
-    // Checks button to stop/start rotation
-    if (m_pauseRotation == true)
-    {
-      m_graphics->stopCubeRotation(m_DT);
-      m_graphics->Render();
-    }
-
-    // Checks button to change direction of rotation
-    if (m_reverseRotation == true)
-    {
-      m_graphics->reverseRotation(m_DT);
-      m_graphics->Render();
-    }
-
-    // Checks button to stop/start orbit
-    /*if (m_pauseOrbit == true)
-    {
-      m_graphics->stopCubeRotation(m_DT);
-      m_graphics->Render();
-    }*/
-
-    // Checks button to change direction of orbit
-    if (m_reverseOrbit == true)
-    {
-      m_graphics->reverseOrbit(m_DT);
-      m_graphics->Render();
-    }
-
     // Update and render the graphics
-    //m_graphics->Update(m_DT);
-    //m_graphics->Render();
+    m_graphics->Update(m_DT, input, newKey);
+    newKey = false;
+    m_graphics->Render();
 
     // Swap to the Window
     m_window->Swap();
@@ -127,41 +89,52 @@ void Engine::Keyboard()
   else if(m_event.type == SDL_KEYDOWN)
   {
     // handle key down events here
-    // Button to close the program
-    if (m_event.key.keysym.sym == SDLK_ESCAPE)
+    switch (m_event.key.keysym.sym)
     {
-      m_running = false;
-    }
+        // Button to close the program
+        case SDLK_ESCAPE:
+           m_running = false;
+           break;
 
-    // Button to pause/resume everything
-    if (m_event.key.keysym.sym == SDLK_SPACE)
-    {
-      m_pauseCube = true;
-    }
+        // Button to pause/resume everything
+        case SDLK_SPACE:
+           input = ' ';
+           newKey = true;
+           break;
 
-    // Button to stop/start rotation
-    if (m_event.key.keysym.sym == SDLK_DOWN)
-    {
-      m_pauseRotation = true;
-    }
+        // Button to stop/start rotation
+        case SDLK_d:
+           input = 'd';
+           newKey = true;
+           break;
+        //if (m_event.key.keysym.sym == SDLK_DOWN)
 
-    // Button to change direction of rotation
-    if (m_event.key.keysym.sym == SDLK_LEFT)
-    {
-      m_reverseRotation = true;
-    }
+        // Button to change direction of rotation
+        case SDLK_r:
+           input = 'r';
+           newKey = true;
+           break;
+        //if (m_event.key.keysym.sym == SDLK_LEFT)
 
-    // Left Mouse click to stop/start orbit
-    /*if (m_event.button.MouseButtonEvent.button == SDL_BUTTON_LEFT)
-    {
-      m_pauseOrbit = true;
-    }*/
+        // Button to change direction of orbit
+        case SDLK_SLASH:
+           input = '/';
+           newKey = true;
+           break;
 
-    // Button to change direction of orbit
-    if (m_event.key.keysym.sym == SDLK_SLASH)
-    {
-      m_reverseOrbit = true;
+        default:
+           break;
     }
+  }
+
+  else if( m_event.type == SDL_MOUSEBUTTONDOWN )
+  {
+      // Button to start/stop orbit
+      if (m_event.button.button == SDL_BUTTON_LEFT)
+      {
+         input = 'b';
+         newKey = true;
+      }
   }
 }
 

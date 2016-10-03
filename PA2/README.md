@@ -49,10 +49,10 @@ Pause/resume the program:
 Press the Space bar
 
 Stop/Start Cube Rotation:
-Press the Down Arrow key
+Press the 'd' key
 
 Change Direction of Rotation:
-Press the Left Arrow key
+Press the 'r' key
 
 Stop/Start Orbit of Cube:
 Left Mouse Click

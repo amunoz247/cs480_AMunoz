@@ -15,11 +15,7 @@ class Graphics
     Graphics();
     ~Graphics();
     bool Initialize(int width, int height);
-    void Update(unsigned int dt);
-    void reverseOrbit(unsigned int dt);
-    void reverseRotation(unsigned int dt);
-    void stopCubeRotation(unsigned int dt);
-    void pauseCube(unsigned int dt);
+    void Update(unsigned int dt, char input, bool newKeyIn);
     void Render();
 
   private:

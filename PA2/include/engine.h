@@ -32,11 +32,10 @@ class Engine
     unsigned int m_DT;
     long long m_currentTimeMillis;
     bool m_running;
-    bool m_reverseRotation;
-    bool m_reverseOrbit;
-    bool m_pauseRotation;
-    bool m_pauseOrbit;
-    bool m_pauseCube;
+
+    //Check for keyboard input
+    char input;
+    bool newKey;
 };
 
 #endif // ENGINE_H

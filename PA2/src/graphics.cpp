@@ -107,34 +107,10 @@ bool Graphics::Initialize(int width, int height)
   return true;
 }
 
-void Graphics::Update(unsigned int dt)
+void Graphics::Update(unsigned int dt, char input, bool newKeyIn)
 {
   // Update the object
-  m_cube->Update(dt);
-}
-
-void Graphics::reverseOrbit(unsigned int dt)
-{
-  // Reverse the Cube's orbit
-  m_cube->reverseOrbit(dt);
-}
-
-void Graphics::reverseRotation(unsigned int dt)
-{
-  // Reverse the Cube's Rotation
-  m_cube->reverseRotation(dt);
-}
-
-void Graphics::stopCubeRotation(unsigned int dt)
-{
-  // Stops Cube Rotation
-  m_cube->stopCubeRotation(dt);
-}
-
-void Graphics::pauseCube(unsigned int dt)
-{
-  // Pauses both rotation and orbit
-  m_cube->pauseCube(dt);
+  m_cube->Update(dt, input, newKeyIn);
 }
 
 void Graphics::Render()

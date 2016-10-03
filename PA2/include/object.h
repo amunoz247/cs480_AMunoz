@@ -9,11 +9,7 @@ class Object
   public:
     Object();
     ~Object();
-    void Update(unsigned int dt);
-    void reverseOrbit(unsigned int dt);
-    void reverseRotation(unsigned int dt);
-    void stopCubeRotation(unsigned int dt);
-    void pauseCube(unsigned int dt);
+    void Update(unsigned int dt, char input, bool newKeyIn);
     void Render();
 
     glm::mat4 GetModel();
@@ -26,6 +22,13 @@ class Object
     GLuint IB;
 
     float angle;
+    float rotAngle;
+
+    // Bools for keyboard interaction
+    bool cubeOrbit;
+    bool cubeOrbitReg;
+    bool cubeRotation;
+    bool cubeRotationReg;
 };
 
 #endif /* OBJECT_H */

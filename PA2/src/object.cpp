@@ -61,6 +61,13 @@ Object::Object()
   }
 
   angle = 0.0f;
+  rotAngle = 0.0f;
+
+  // Set bools
+  cubeOrbit = true;
+  cubeOrbitReg = true;
+  cubeRotation = true;
+  cubeRotationReg = true;
 
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -77,37 +84,159 @@ Object::~Object()
   Indices.clear();
 }
 
-void Object::Update(unsigned int dt)
+void Object::Update(unsigned int dt, char input, bool newKeyIn)
 {
-  angle += dt * M_PI/1000;
-  model = (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0))) *
-            (glm::translate(glm::mat4(1.0f), glm::vec3(5.0, 1.0, 0.0))) *
-            (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0)));
-}
+  //Check for a keyboard input
+  if (newKeyIn == true)
+  {
+    switch (input)
+    {
+      //Start/Stop planet orbit
+      case 'b': // left mouse button 
+        if (cubeOrbit == true)
+          cubeOrbit = false;
+        else if (cubeOrbit == false)
+          cubeOrbit = true;
+        break;
+      
+      // Reverse orbit
+      case '/':
+        if (cubeOrbitReg == true)
+          cubeOrbitReg = false;
+        else if (cubeOrbitReg == false)
+          cubeOrbitReg = true;
+        break;
+        
+      // Start/stop rotation
+      case 'd':
+        if (cubeRotation == true)
+          cubeRotation = false;
+        else if (cubeRotation == false)
+          cubeRotation = true;
+        break;
+        
+      // Reverse rotation
+      case 'r':
+        if (cubeRotationReg == true)
+          cubeRotationReg = false;
+        else if (cubeRotationReg == false)
+          cubeRotationReg = true;
+        break;
+        
+      //Stop/reset program
+      case ' ':
+        if (cubeOrbit == true || cubeOrbitReg == true ||cubeRotation == true || cubeRotationReg == true)
+        {
+          cubeOrbit = false;
+          cubeOrbitReg = false;
+          cubeRotation = false;
+          cubeRotationReg = false;
+        }
+        else if (cubeOrbit == false && cubeOrbitReg == false && cubeRotation == false && cubeRotationReg == false)
+        {
+          cubeOrbit = true;
+          cubeOrbitReg = true;
+          cubeRotation = true;
+          cubeRotationReg = true;
+        }
+       
+      default:
+        break;
+    }
+  }
 
-void Object::reverseOrbit(unsigned int dt)
-{
-  angle -= dt * M_PI/1000;
-  model = (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0))) *
-            (glm::translate(glm::mat4(1.0f), glm::vec3(5.0, 1.0, 0.0))) *
-            (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0)));
-}
+  // Planet is orbiting and rotating
+  if (cubeOrbit == true && cubeRotation == true)
+  {
+    // Regular orbit and rotation
+    if (cubeOrbitReg == true && cubeRotationReg == true)
+    {
+      angle += dt * M_PI/1000;
+      rotAngle += dt * M_PI/1000;
+      model = (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 12.0, 0.0)) * glm::translate(glm::mat4(1.0f), glm::vec3(4.0, 0.0, 0.0)))
+              * glm::rotate(glm::mat4(1.0f), (rotAngle), glm::vec3(0.0, 12.0, 0.0));
+    }
 
-void Object::reverseRotation(unsigned int dt)
-{
-  angle -= dt * M_PI/1000;
-  model = glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0));
-}
+    //Reversed orbit / Normal Rotation
+    else if (cubeOrbitReg == false && cubeRotationReg == true)
+    {
+      angle -= dt * M_PI/1000;
+      rotAngle += dt * M_PI/500; // *2 to offset speed
+      model = (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 12.0, 0.0)) * glm::translate(glm::mat4(1.0f), glm::vec3(4.0, 0.0, 0.0)))
+              * glm::rotate(glm::mat4(1.0f), (rotAngle), glm::vec3(0.0, 12.0, 0.0));
+    }
 
-void Object::stopCubeRotation(unsigned int dt)
-{
-  model = (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0))) *
-            (glm::translate(glm::mat4(1.0f), glm::vec3(5.0, 1.0, 0.0)));
-}
+    // Normal orbit / Reversed rotation
+    else if (cubeOrbitReg == true && cubeRotationReg == false)
+    {
+      angle += dt * M_PI/1000;
+      rotAngle -= dt * M_PI/1500; 
+      model = (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 12.0, 0.0)) * glm::translate(glm::mat4(1.0f), glm::vec3(4.0, 0.0, 0.0)))
+              * glm::rotate(glm::mat4(1.0f), (rotAngle), glm::vec3(0.0, 12.0, 0.0));
+    }
 
-void Object::pauseCube(unsigned int dt)
-{
-  model = glm::translate(glm::mat4(1.0f), glm::vec3(5.0, 1.0, 0.0));
+    // Reversed orbit / reversed rotation
+    else if (cubeOrbitReg == false && cubeRotationReg == false)
+    {
+      angle -= dt * M_PI/1000;
+      rotAngle -= dt * M_PI/1500;
+      model = (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 12.0, 0.0)) * glm::translate(glm::mat4(1.0f), glm::vec3(4.0, 0.0, 0.0)))
+              * glm::rotate(glm::mat4(1.0f), (rotAngle), glm::vec3(0.0, 12.0, 0.0));
+    }
+  }
+
+  // Orbiting / Not rotating
+  else if (cubeOrbit == true && cubeRotation == false)
+  {
+    // Normal orbit
+    if (cubeOrbitReg == true)
+    {
+      angle += dt * M_PI/1000;
+      rotAngle += 0;
+      model = (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 12.0, 0.0)) * glm::translate(glm::mat4(1.0f), glm::vec3(4.0, 0.0, 0.0)))
+              * glm::rotate(glm::mat4(1.0f), (rotAngle), glm::vec3(0.0, 12.0, 0.0));
+    }
+
+    // Reversed orbit
+    else if (cubeOrbitReg == false)
+    {
+      angle -= dt * M_PI/1000;
+      rotAngle += 0;
+      model = (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 12.0, 0.0)) * glm::translate(glm::mat4(1.0f), glm::vec3(4.0, 0.0, 0.0)))
+              * glm::rotate(glm::mat4(1.0f), (rotAngle), glm::vec3(0.0, 12.0, 0.0));
+    }
+  }
+
+  // Not orbiting / Rotating
+  else if (cubeOrbit == false && cubeRotation == true)
+  {
+    // Normal rotation
+    if (cubeRotationReg == true)
+    {
+      angle += 0;
+      rotAngle += dt * M_PI/1000;
+      model = (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 12.0, 0.0)) * glm::translate(glm::mat4(1.0f), glm::vec3(4.0, 0.0, 0.0)))
+              * glm::rotate(glm::mat4(1.0f), (rotAngle), glm::vec3(0.0, 12.0, 0.0));
+    }
+
+    // Reversed rotation
+    else if (cubeRotationReg == false)
+    {
+      angle += 0;
+      rotAngle -= dt * M_PI/1000;
+      model = (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 12.0, 0.0)) * glm::translate(glm::mat4(1.0f), glm::vec3(4.0, 0.0, 0.0)))
+              * glm::rotate(glm::mat4(1.0f), (rotAngle), glm::vec3(0.0, 12.0, 0.0));
+    }
+  }
+
+  // Not orbiting/rotating
+  else if (cubeOrbit == false && cubeRotation == false)
+  {
+    angle += 0;
+    rotAngle += 0;
+    model = (glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 12.0, 0.0)) * glm::translate(glm::mat4(1.0f), glm::vec3(4.0, 0.0, 0.0)))
+              * glm::rotate(glm::mat4(1.0f), (rotAngle), glm::vec3(0.0, 12.0, 0.0));
+  }
 }
 
 glm::mat4 Object::GetModel()

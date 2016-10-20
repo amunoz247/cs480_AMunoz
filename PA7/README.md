@@ -1,0 +1,3 @@
+## Project 7: Solar System
+This project uses multiple objects to create a solar system which displays the planets orbiting around the sun and their individual rotations. There is also a background of the stars that allows for a more realistic view of the solar system. We use Assimp to load models as well as textures for those models. We also use the ImageMagick library to load the texture (.jpg) files into a format that can be read by OpenGL.
+I worked on this project with my classmates Zach Cooper and Robert Trimble. The full program can be found in Robert Trimble's computer graphics (CS480_Trimble) repository.
